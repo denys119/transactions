@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 
-const { handleDeletePerson } = require("./manager/person");
+const { handleDeletePerson, handleCreatePerson, handleUpdatePerson } = require("./manager/person");
 
 dotenv.config();
 
@@ -22,6 +22,18 @@ mongoose.connect(process.env.DATABASE_HOST, {
 
 app.get("", (req, res) => {
     res.json({message: "Welcome to the application"});
+});
+
+app.post("/person", async (req, res) => {
+    const person = await handleCreatePerson(req.body.name);
+    res.json(person);
+});
+
+app.put("/person/:personId", async (req, res) => {
+    const { personId } = req.params;
+    const { name, text } = req.body;
+    const person = await handleUpdatePerson(personId, name, text);
+    res.json(person);
 });
 
 app.delete("/person/:personId", async (req, res) => {

@@ -1,4 +1,4 @@
-const { deletePerson } = require("../datastore/person");
+const { deletePerson, createPerson, updatePerson } = require("../datastore/person");
 
 async function handleDeletePerson(personId) {
   try {
@@ -9,6 +9,26 @@ async function handleDeletePerson(personId) {
   }
 }
 
+async function handleCreatePerson(name) {
+  try {
+    const person = await createPerson(name);
+    return person;  
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function handleUpdatePerson(personId, name, text) {
+  try {
+    const person = await updatePerson(personId, name, text);
+    return person;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 module.exports = {
-  handleDeletePerson
+  handleDeletePerson,
+  handleCreatePerson,
+  handleUpdatePerson
 }
